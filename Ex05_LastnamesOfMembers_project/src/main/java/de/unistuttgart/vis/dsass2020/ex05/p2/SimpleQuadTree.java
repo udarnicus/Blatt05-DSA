@@ -29,14 +29,17 @@ public class SimpleQuadTree<T extends QuadTreeElement> extends QuadTree<T> {
 
   private Rectangle computeBoundingBox(final List<T> elements) {
     // TODO Insert code for assignment 5.2.a
+    return null;
   }
 
   void createQuadTree(final List<T> list) throws IllegalArgumentException {
     // TODO Insert code for assignment 5.2.b
+
   }
 
   @Override
   public void rangeQuery(final List<T> resultList, final Rectangle query) {
     // TODO Insert code for assignment 5.2.c
+
   }
 }

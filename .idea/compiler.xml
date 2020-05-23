@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/Ex05_LastnamesOfMembers_project/src/main/java/de/unistuttgart/vis/dsass2020/ex05/p2" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/Ex05_LastnamesOfMembers_project/src/main/java/de/unistuttgart/vis/dsass2020/ex05/p3" includeSubdirectories="true" />
+    </excludeFromCompile>
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
