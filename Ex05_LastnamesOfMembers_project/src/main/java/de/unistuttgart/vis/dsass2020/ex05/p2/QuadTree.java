@@ -49,7 +49,7 @@ public abstract class QuadTree<T extends QuadTreeElement> {
    * 
    * @param resultList: List that is used to store the elements that are
    *        contained in the selected area
-   * @param selecedArea: the result list contains all element that are within
+   * @param query: the result list contains all element that are within
    *        the selected area
    */
   public abstract void rangeQuery(final List<T> resultList,
@@ -59,7 +59,7 @@ public abstract class QuadTree<T extends QuadTreeElement> {
    * This method recursively creates the quad tree.
    * 
    * @param list of elements to be stored in the quad tree
-   * @throws QuadTreeException
+   * @throws IllegalArgumentException
    */
   abstract void createQuadTree(final List<T> list)
       throws IllegalArgumentException;
