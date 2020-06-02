@@ -2,6 +2,7 @@ package de.unistuttgart.vis.dsass2020.ex05.p2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.unistuttgart.vis.dsass2020.ex05.p1.Point;
 import de.unistuttgart.vis.dsass2020.ex05.p1.Rectangle;
@@ -29,15 +30,17 @@ public class SimpleQuadTree<T extends QuadTreeElement> extends QuadTree<T> {
 
   private Rectangle computeBoundingBox(final List<T> elements) {
     /**
-     * Every second element is the upper point of the created rectangle
+     * Returns bounding box of all points
+     *
+     * map every element to the rectangle that is based on the elements position
+     *
      */
-    ArrayList<Float> listOfXCoordinates = new ArrayList<>();
-    ArrayList<Float> listOfYCoordinates = new ArrayList<>();
+    return Rectangle.getBoundingBox( elements.stream().map(s->new Rectangle(s.getPosition().x,s.getPosition().y,0
+            ,0)).collect(Collectors.toList()));
 
-    for (T point : elements) {
-    }
-    return null;
+
   }
+
 
   void createQuadTree(final List<T> list) throws IllegalArgumentException {
     Rectangle boundingBox = computeBoundingBox(list);
