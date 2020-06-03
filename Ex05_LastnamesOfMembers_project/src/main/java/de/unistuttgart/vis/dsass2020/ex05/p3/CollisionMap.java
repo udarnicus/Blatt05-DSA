@@ -96,7 +96,7 @@ public class CollisionMap {
             int bottomRightX = (int) Math.floor(transformX(rectangle.x) + rectangle.width);
             int topLeftY = (int) Math.ceil(transformY(rectangle.y));
             int bottomRightY = (int) Math.floor(transformY(rectangle.y) + rectangle.height);
-            for (int y = topLeftY; y < bottomRightY; ++y) {
+            for (int y = bottomRightY; y < topLeftY; ++y) {
                 for (int x = topLeftX; x < bottomRightX; ++x) {
                     map[y][x].add(rectangle);
                 }
