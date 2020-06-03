@@ -1,5 +1,9 @@
 package de.unistuttgart.vis.dsass2020.ex05.p1;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * This class represents an two-dimensional point
  */
@@ -31,4 +35,5 @@ public class Point {
   public String toString() {
     return Integer.toString(id);
   }
+
 }
