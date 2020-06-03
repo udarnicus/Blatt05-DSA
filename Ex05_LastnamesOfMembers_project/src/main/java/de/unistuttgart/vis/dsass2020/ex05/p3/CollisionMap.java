@@ -77,8 +77,20 @@ public class CollisionMap {
      */
     private Set<Rectangle> getCollisionCandidates(Rectangle rectangle) throws CollisionMapOutOfBoundsException {
         // TODO Insert code for assignment 5.3.b
+        final Set<Rectangle> set = new HashSet<>();
+        int topLeftX = (int) Math.ceil(transformX(rectangle.x));
+        int bottomRightX = (int) Math.floor(transformX(rectangle.x) + rectangle.width);
+        int topLeftY = (int) Math.ceil(transformY(rectangle.y));
+        int bottomRightY = (int) Math.floor(transformY(rectangle.y) + rectangle.height);
+        // muss gridResolutionX und Y davon substrahiert werden?
+        for (int y = bottomRightY; y < topLeftY; ++y) {
+            for (int x = topLeftX; x < bottomRightX; ++x) {
+                for (int i = 0; i < map[y][x].size(); i++)
+                    set.add(map[y][x].get(i));
+            }
+        }
 
-        return null;
+        return set;
     }
 
     /**
@@ -96,13 +108,13 @@ public class CollisionMap {
             int bottomRightX = (int) Math.floor(transformX(rectangle.x) + rectangle.width);
             int topLeftY = (int) Math.ceil(transformY(rectangle.y));
             int bottomRightY = (int) Math.floor(transformY(rectangle.y) + rectangle.height);
+            // muss gridResolutionX und Y davon substrahiert werden?
             for (int y = bottomRightY; y < topLeftY; ++y) {
                 for (int x = topLeftX; x < bottomRightX; ++x) {
                     map[y][x].add(rectangle);
                 }
             }
         }
-
     }
 
     /**
@@ -144,10 +156,9 @@ public class CollisionMap {
      * @return true iff the given rectangle intersects one of the rectangles in the
      * collision map.
      */
-    public boolean collide(Rectangle rectangle) {
+    public boolean collide(Rectangle rectangle) throws CollisionMapOutOfBoundsException {
         // TODO Insert code for assignment 5.3.c
-
-        return true;
+        return getCollisionCandidates(rectangle).size() == 1;
     }
 
     /**
