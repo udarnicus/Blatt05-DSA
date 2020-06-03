@@ -78,20 +78,59 @@ public class CollisionMap {
     private Set<Rectangle> getCollisionCandidates(Rectangle rectangle) throws CollisionMapOutOfBoundsException {
         // TODO Insert code for assignment 5.3.b
         final Set<Rectangle> set = new HashSet<>();
-        int topLeftX = (int) Math.ceil(transformX(rectangle.x));
-        int bottomRightX = (int) Math.floor(transformX(rectangle.x) + rectangle.width);
-        int topLeftY = (int) Math.ceil(transformY(rectangle.y));
-        int bottomRightY = (int) Math.floor(transformY(rectangle.y) + rectangle.height);
+
+        if(intersectTwoRectangles(rectangle, gridRectangle) != null){
+            rectangle = intersectTwoRectangles(rectangle, gridRectangle);
+        }else{
+            return set;
+        }
+
+        int topLeftX = (int) Math.floor(transformX(rectangle.x));
+        int bottomRightX = (int) Math.ceil(transformX(rectangle.x + rectangle.width) );
+        int topLeftY = (int) Math.floor(transformY(rectangle.y));
+        int bottomRightY = (int) Math.ceil(transformY(rectangle.y + rectangle.height) );
         // muss gridResolutionX und Y davon substrahiert werden?
         for (int y = bottomRightY; y < topLeftY; ++y) {
             for (int x = topLeftX; x < bottomRightX; ++x) {
                 for (int i = 0; i < map[y][x].size(); i++)
-                    set.add(map[y][x].get(i));
+                    if(map[y][x].get(i).intersects(rectangle)){
+                        set.add(map[y][x].get(i));
+                    }
+
             }
         }
 
         return set;
     }
+
+    /**
+     * Methode calculates the intersection of two rectangles
+     *
+     * Returns null if rectangles dont intersect
+     *
+     *
+     * @param rectangle1
+     * @param rectangle2
+     * @return
+     */
+
+    private Rectangle intersectTwoRectangles(Rectangle rectangle1, Rectangle rectangle2){
+        if(rectangle1.intersects(rectangle2)){
+
+            float XCoordinate = Math.max(rectangle1.x,rectangle2.x);
+            float YCoordinate = Math.max(rectangle1.y,rectangle2.y);
+            float width = Math.abs(XCoordinate - Math.min(rectangle1.x + rectangle1.width,
+                    rectangle2.x + rectangle2.width));
+            float height = Math.abs(YCoordinate - Math.min(rectangle1.y + rectangle1.height,
+                    rectangle2.y + rectangle2.height));
+
+            return new Rectangle(XCoordinate, YCoordinate,width,height);
+        }
+
+        return null;
+
+    }
+
 
     /**
      * Fill this collision map with a set of rectangles.
@@ -104,10 +143,10 @@ public class CollisionMap {
         for (final Rectangle rectangle : rectangles) {
             // in allen Zellen, die das Rechteck entweder teilweise oder
             // komplett abdeckt, wird das jeweilige  Rechteck in deren Liste eingefügt.
-            int topLeftX = (int) Math.ceil(transformX(rectangle.x));
-            int bottomRightX = (int) Math.floor(transformX(rectangle.x) + rectangle.width);
-            int topLeftY = (int) Math.ceil(transformY(rectangle.y));
-            int bottomRightY = (int) Math.floor(transformY(rectangle.y) + rectangle.height);
+            int topLeftX = (int) Math.floor(transformX(rectangle.x));
+            int bottomRightX = (int) Math.ceil(transformX(rectangle.x + rectangle.width) );
+            int topLeftY = (int) Math.floor(transformY(rectangle.y));
+            int bottomRightY = (int) Math.ceil(transformY(rectangle.y + rectangle.height) );
             // muss gridResolutionX und Y davon substrahiert werden?
             for (int y = bottomRightY; y < topLeftY; ++y) {
                 for (int x = topLeftX; x < bottomRightX; ++x) {
@@ -157,8 +196,7 @@ public class CollisionMap {
      * collision map.
      */
     public boolean collide(Rectangle rectangle) throws CollisionMapOutOfBoundsException {
-        // TODO Insert code for assignment 5.3.c
-        return getCollisionCandidates(rectangle).size() == 1;
+        return getCollisionCandidates(rectangle).size() >= 1;
     }
 
     /**
