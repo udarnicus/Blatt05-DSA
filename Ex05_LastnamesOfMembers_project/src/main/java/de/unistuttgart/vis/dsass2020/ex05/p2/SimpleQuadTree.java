@@ -43,7 +43,7 @@ public class SimpleQuadTree<T extends QuadTreeElement> extends QuadTree<T> {
 
 
     void createQuadTree(final List<T> list) throws IllegalArgumentException {
-        Rectangle boundingBox = computeBoundingBox(list);
+        //Rectangle boundingBox = computeBoundingBox(list);
         if (list.size() <= maxLeafElements) { // hier bin ich mir nicht sicher, ob es die Rekursionsbremse ist
             this.leafElements = list;
             return;
@@ -88,25 +88,36 @@ public class SimpleQuadTree<T extends QuadTreeElement> extends QuadTree<T> {
 
     @Override
     public void rangeQuery(final List<T> resultList, final Rectangle query) {
-        if (this.leafElements.size() <= maxLeafElements) {
-            //check if every point is in rectangle
-            for (final T element : this.leafElements) {
-                if (query.contains(element.getPosition())) {
-                    resultList.add(element);
+        if(this.leafElements != null) {
+            if (this.leafElements.size() <= maxLeafElements) {
+                //check if every point is in rectangle
+                for (final T element : this.leafElements) {
+                    if (query.contains(element.getPosition())) {
+                        resultList.add(element);
+                    }
                 }
             }
         }
-        if (this.tl.boundingBox.intersects(query)) {
-            this.tl.rangeQuery(resultList, query);
+        if(this.tl != null){
+            if (this.tl.boundingBox.intersects(query)) {
+                this.tl.rangeQuery(resultList, query);
+            }
         }
-        if (this.tr.boundingBox.intersects(query)) {
-            this.tr.rangeQuery(resultList, query);
+
+        if(this.tr != null) {
+            if (this.tr.boundingBox.intersects(query)) {
+                this.tr.rangeQuery(resultList, query);
+            }
         }
-        if (this.bl.boundingBox.intersects(query)) {
-            this.bl.rangeQuery(resultList, query);
+        if(this.bl != null) {
+            if (this.bl.boundingBox.intersects(query)) {
+                this.bl.rangeQuery(resultList, query);
+            }
         }
-        if (this.br.boundingBox.intersects(query)) {
-            this.br.rangeQuery(resultList, query);
+        if(this.br != null) {
+            if (this.br.boundingBox.intersects(query)) {
+                this.br.rangeQuery(resultList, query);
+            }
         }
 
 
