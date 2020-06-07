@@ -13,6 +13,11 @@ import de.unistuttgart.vis.dsass2020.ex05.p1.Rectangle;
  * data structure that stores a set of rectangles. Given another rectangle, this
  * data structure allows retrieving all rectangles that intersect this
  * rectangle.
+ *
+ * @author Mohamed Ben Salha, 3465244,  st167263;
+ * @author Radu Manea, 3465480, st166429;
+ * @author Lars Gillich, 3465778, st167614;
+ * @version 07.06.2020
  */
 public class CollisionMap {
 
@@ -72,27 +77,36 @@ public class CollisionMap {
     /**
      * Given a rectangle, this method returns a set of potential colliding
      * rectangles.
+     * Since the given rectangle could partially lie outside the CollisionMap,
+     * only the part that overlaps with the CollisionMap will be considered.
+     * TopLeftX is x converted and rounded down
+     * TopLefty is y converted and rounded up
+     * BottomRightX is (x+width) converted and rounded up
+     * BottomRightY is (y+height) converted and rounded down
+     * so that all cells, even those who partially overlapping the given rectangle,
+     * are also considered as collision candidates.
      *
-     * @return
+     * @return set containig all rectangle placed on the cells overlapping
+     * with the given rectangle
      * @throws CollisionMapOutOfBoundsException
      */
     private Set<Rectangle> getCollisionCandidates(Rectangle rectangle) throws CollisionMapOutOfBoundsException {
         final Set<Rectangle> set = new HashSet<>();
 
-        if(intersectTwoRectangles(rectangle, gridRectangle) != null){
+        if (intersectTwoRectangles(rectangle, gridRectangle) != null) {
             rectangle = intersectTwoRectangles(rectangle, gridRectangle);
-        }else{
+        } else {
             return set;
         }
 
         int topLeftX = (int) Math.floor(transformX(rectangle.x));
-        int bottomRightX = (int) Math.ceil(transformX(rectangle.x + rectangle.width) );
+        int bottomRightX = (int) Math.ceil(transformX(rectangle.x + rectangle.width));
         int topLeftY = (int) Math.floor(transformY(rectangle.y));
-        int bottomRightY = (int) Math.ceil(transformY(rectangle.y + rectangle.height) );
-        for (int y = topLeftY; y < bottomRightY; ++y)  {
+        int bottomRightY = (int) Math.ceil(transformY(rectangle.y + rectangle.height));
+        for (int y = topLeftY; y < bottomRightY; ++y) {
             for (int x = topLeftX; x < bottomRightX; ++x) {
                 for (int i = 0; i < map[y][x].size(); i++)
-                        set.add(map[y][x].get(i));
+                    set.add(map[y][x].get(i));
 
 
             }
@@ -102,27 +116,26 @@ public class CollisionMap {
     }
 
     /**
-     * Methode calculates the intersection of two rectangles
-     *
+     * Method calculates the intersection of two rectangles
+     * <p>
      * Returns null if rectangles dont intersect
-     *
      *
      * @param rectangle1
      * @param rectangle2
-     * @return
+     * @return the intersection of two rectangles when the intersect else nul
      */
 
-    private Rectangle intersectTwoRectangles(Rectangle rectangle1, Rectangle rectangle2){
-        if(rectangle1.intersects(rectangle2)){
+    private Rectangle intersectTwoRectangles(Rectangle rectangle1, Rectangle rectangle2) {
+        if (rectangle1.intersects(rectangle2)) {
 
-            float XCoordinate = Math.max(rectangle1.x,rectangle2.x);
-            float YCoordinate = Math.max(rectangle1.y,rectangle2.y);
+            float XCoordinate = Math.max(rectangle1.x, rectangle2.x);
+            float YCoordinate = Math.max(rectangle1.y, rectangle2.y);
             float width = Math.abs(XCoordinate - Math.min(rectangle1.x + rectangle1.width,
                     rectangle2.x + rectangle2.width));
             float height = Math.abs(YCoordinate - Math.min(rectangle1.y + rectangle1.height,
                     rectangle2.y + rectangle2.height));
 
-            return new Rectangle(XCoordinate, YCoordinate,width,height);
+            return new Rectangle(XCoordinate, YCoordinate, width, height);
         }
 
         return null;
@@ -132,6 +145,12 @@ public class CollisionMap {
 
     /**
      * Fill this collision map with a set of rectangles.
+     * TopLeftX is x converted and rounded down
+     * TopLefty is y converted and rounded up
+     * BottomRightX is (x+width) converted and rounded up
+     * BottomRightY is (y+height) converted and rounded down
+     * so that the rectangles which partially or completely overlapping with
+     * a cell will be added to it.
      *
      * @param rectangles
      * @throws CollisionMapOutOfBoundsException
@@ -142,10 +161,9 @@ public class CollisionMap {
             // in allen Zellen, die das Rechteck entweder teilweise oder
             // komplett abdeckt, wird das jeweilige  Rechteck in deren Liste eingefügt.
             int topLeftX = (int) Math.floor(transformX(rectangle.x));
-            int bottomRightX = (int) Math.ceil(transformX(rectangle.x + rectangle.width) );
+            int bottomRightX = (int) Math.ceil(transformX(rectangle.x + rectangle.width));
             int topLeftY = (int) Math.floor(transformY(rectangle.y));
-            int bottomRightY = (int) Math.ceil(transformY(rectangle.y + rectangle.height) );
-            // muss gridResolutionX und Y davon substrahiert werden?
+            int bottomRightY = (int) Math.ceil(transformY(rectangle.y + rectangle.height));
             for (int y = topLeftY; y < bottomRightY; ++y) {
                 for (int x = topLeftX; x < bottomRightX; ++x) {
                     map[y][x].add(rectangle);
