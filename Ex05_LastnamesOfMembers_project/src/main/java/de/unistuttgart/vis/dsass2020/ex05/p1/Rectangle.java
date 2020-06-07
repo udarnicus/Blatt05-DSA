@@ -45,7 +45,7 @@ public class Rectangle {
 
     /**
      * @param point
-     * @return true iff the point is inside the rectangle
+     * @return true if the point is inside the rectangle or on its edge
      */
     public boolean contains(final Point point) {
         boolean containsX = point.x >= this.x && point.x <= this.x + this.width;
@@ -70,7 +70,6 @@ public class Rectangle {
      */
     public boolean intersects(final Rectangle rectangle) {
         ArrayList<Point> cornersOfCurrentRectangle = getCornerPoints(this);
-
         ArrayList<Point> cornersOfGivenRectangle = getCornerPoints(rectangle);
 
         boolean intersectionOfRectangles = false;
@@ -140,8 +139,5 @@ public class Rectangle {
         return new Rectangle(Collections.min(listOfXCoordinates), Collections.min(listOfYCoordinates),
                 Collections.max(listOfXCoordinates) - Collections.min(listOfXCoordinates),
                 Collections.max(listOfYCoordinates) - Collections.min(listOfYCoordinates));
-
-
     }
-
 }
