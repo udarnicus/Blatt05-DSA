@@ -6,6 +6,11 @@ import java.util.Collections;
 
 /**
  * This class represents a quadrilateral, where the angles are 90 degrees.
+ *
+ * @author Mohamed Ben Salha, 3465244,  st167263;
+ * @author Radu Manea, 3465480, st166429;
+ * @author Lars Gillich, 3465778, st167614;
+ * @version 07.06.2020
  */
 public class Rectangle {
 
@@ -54,9 +59,13 @@ public class Rectangle {
         return (containsX && containsY);
     }
 
-
-    private ArrayList<Point> getCornerPoints(Rectangle rectangle) {
-        ArrayList<Point> cornersOfGivenRectangle = new ArrayList<>();
+    /**
+     *
+     * @param rectangle
+     * @return a list containing the four corner points of the given rectangle
+     */
+    private ArrayList<Point> getCornerPoints(final Rectangle rectangle) {
+        final ArrayList<Point> cornersOfGivenRectangle = new ArrayList<>();
         cornersOfGivenRectangle.add(new Point(rectangle.x, rectangle.y));
         cornersOfGivenRectangle.add(new Point(rectangle.x + rectangle.width, rectangle.y));
         cornersOfGivenRectangle.add(new Point(rectangle.x, rectangle.y + rectangle.height));
@@ -73,7 +82,6 @@ public class Rectangle {
         ArrayList<Point> cornersOfGivenRectangle = getCornerPoints(rectangle);
 
         boolean intersectionOfRectangles = false;
-
 
         for (Point point : cornersOfCurrentRectangle) {
             if (rectangle.contains(point)) {
@@ -125,13 +133,13 @@ public class Rectangle {
      * @return the grown rectangle that includes all {points}.
      */
     public Rectangle extendTo(final Collection<Point> points) {
-        ArrayList<Point> cornersOfCurrentRectangle = getCornerPoints(this);
-        ArrayList<Float> listOfXCoordinates = new ArrayList<>();
-        ArrayList<Float> listOfYCoordinates = new ArrayList<>();
+        final ArrayList<Point> cornersOfCurrentRectangle = getCornerPoints(this);
+        final ArrayList<Float> listOfXCoordinates = new ArrayList<>();
+        final ArrayList<Float> listOfYCoordinates = new ArrayList<>();
 
         points.addAll(cornersOfCurrentRectangle);
 
-        for (Point point : points) {
+        for (final Point point : points) {
             listOfXCoordinates.add(point.x);
             listOfYCoordinates.add(point.y);
         }

@@ -111,7 +111,6 @@ public class CollisionMap {
 
             }
         }
-
         return set;
     }
 
