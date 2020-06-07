@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import de.unistuttgart.vis.dsass2020.ex05.p1.Rectangle;
 
@@ -76,7 +77,6 @@ public class CollisionMap {
      * @throws CollisionMapOutOfBoundsException
      */
     private Set<Rectangle> getCollisionCandidates(Rectangle rectangle) throws CollisionMapOutOfBoundsException {
-        // TODO Insert code for assignment 5.3.b
         final Set<Rectangle> set = new HashSet<>();
 
         if(intersectTwoRectangles(rectangle, gridRectangle) != null){
@@ -89,13 +89,11 @@ public class CollisionMap {
         int bottomRightX = (int) Math.ceil(transformX(rectangle.x + rectangle.width) );
         int topLeftY = (int) Math.floor(transformY(rectangle.y));
         int bottomRightY = (int) Math.ceil(transformY(rectangle.y + rectangle.height) );
-        // muss gridResolutionX und Y davon substrahiert werden?
-        for (int y = bottomRightY; y < topLeftY; ++y) {
+        for (int y = topLeftY; y < bottomRightY; ++y)  {
             for (int x = topLeftX; x < bottomRightX; ++x) {
                 for (int i = 0; i < map[y][x].size(); i++)
-                    if(map[y][x].get(i).intersects(rectangle)){
                         set.add(map[y][x].get(i));
-                    }
+
 
             }
         }
@@ -148,7 +146,7 @@ public class CollisionMap {
             int topLeftY = (int) Math.floor(transformY(rectangle.y));
             int bottomRightY = (int) Math.ceil(transformY(rectangle.y + rectangle.height) );
             // muss gridResolutionX und Y davon substrahiert werden?
-            for (int y = bottomRightY; y < topLeftY; ++y) {
+            for (int y = topLeftY; y < bottomRightY; ++y) {
                 for (int x = topLeftX; x < bottomRightX; ++x) {
                     map[y][x].add(rectangle);
                 }
@@ -196,7 +194,8 @@ public class CollisionMap {
      * collision map.
      */
     public boolean collide(Rectangle rectangle) throws CollisionMapOutOfBoundsException {
-        return getCollisionCandidates(rectangle).size() >= 1;
+
+        return getCollisionCandidates(rectangle).stream().filter(rechteck -> rechteck.intersects(rectangle)).collect(Collectors.toList()).size() > 0;
     }
 
     /**
